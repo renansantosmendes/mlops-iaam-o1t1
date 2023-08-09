@@ -29,7 +29,7 @@ def reset_seeds():
    np.random.seed(42)
    random.seed(42)
 
-"""# 2 - Fazendo a leitura do dataset e atribuindo às respectivas variáveis"""
+"""# 2 - Fazendo a leitura do dataset e atribuindo às respectivas variáveis   """
 
 data = pd.read_csv('https://raw.githubusercontent.com/renansantosmendes/lectures-cdas-2023/master/fetal_health_reduced.csv')
 
