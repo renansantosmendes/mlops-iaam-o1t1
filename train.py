@@ -21,28 +21,40 @@ import random as python_random
 
 
 def reset_seeds():
-    os.environ['PYTHONHASHSEED']=str(42)
+    os.environ['PYTHONHASHSEED'] = str(42)
     tf.random.set_seed(42)
     np.random.seed(42)
     random.seed(42)
 
 
 def process_data():
-    data = pd.read_csv('https://raw.githubusercontent.com/renansantosmendes/lectures-cdas-2023/master/fetal_health_reduced.csv')
-
-    X=data.drop(["fetal_health"], axis=1)
-    y=data["fetal_health"]
+    X, y = read_data()
 
     columns_names = list(X.columns)
     scaler = preprocessing.StandardScaler()
     X_df = scaler.fit_transform(X)
     X_df = pd.DataFrame(X_df, columns=columns_names)
 
-    X_train, X_test, y_train, y_test = train_test_split(X_df, y, test_size=0.3, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X_df,
+                                                        y,
+                                                        test_size=0.3,
+                                                        random_state=42)
 
     y_train = y_train - 1
     y_test = y_test - 1
     return X_train, X_test, y_train, y_test
+
+
+def read_data():
+    data = pd.read_csv(
+        'https://raw.githubusercontent.com/'
+        'renansantosmendes/'
+        'lectures-cdas-2023/'
+        'master/'
+        'fetal_health_reduced.csv')
+    X = data.drop(["fetal_health"], axis=1)
+    y = data["fetal_health"]
+    return X, y
 
 
 def create_model(train_data):
@@ -59,7 +71,9 @@ def create_model(train_data):
 
 
 def config_mlflow():
-    MLFLOW_TRACKING_URI = 'https://dagshub.com/renansantosmendes/mlops-puc-220823.mlflow'
+    MLFLOW_TRACKING_URI = 'https://dagshub.com/' \
+                          'renansantosmendes/' \
+                          'mlops-puc-220823.mlflow'
     MLFLOW_TRACKING_USERNAME = 'renansantosmendes'
     MLFLOW_TRACKING_PASSWORD = 'ceab8cbfb9057e48981c8f1b8ef4dbfc65e237ca'
     os.environ['MLFLOW_TRACKING_USERNAME'] = MLFLOW_TRACKING_USERNAME
