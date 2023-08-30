@@ -35,6 +35,7 @@ jobs:
 
   train_pipeline:
       runs-on: ubuntu-latest
+      needs: [test_train]
       steps:
           - uses: actions/checkout@v1
             with:
